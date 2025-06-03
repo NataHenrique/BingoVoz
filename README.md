@@ -13,7 +13,10 @@ Utilizando a tecnologia de **reconhecimento de voz**, a aplicação permite que 
 3. Se a fala for um número válido (ex: "vinte e cinco", "47", "sessenta"):
    - O número aparece em destaque na tela
    - É exibida a transcrição da fala
-
+- Possibilidade de ativar o reconhecimento de duas formas:
+  - **Clicando no botão “Ouvir Número”**
+  - **Pressionando a barra de espaço (tecla espaço)** no teclado
+    
 Se não for possível reconhecer corretamente, uma mensagem de erro é exibida.
 
 ---
