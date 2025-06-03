@@ -154,6 +154,13 @@
         mensagemEl.textContent = `Erro: ${event.error}`;
       };
     }
+    
+      document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      ouvirNumero();
+    }
+  });
   </script>
 </body>
 </html>
