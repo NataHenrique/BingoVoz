@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo por Voz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0d1b2a;
+      font-family: 'Fredoka One', cursive;
+      color: #fff8e7;
+      text-align: center;
+      padding: 5vh 5vw;
+      min-height: 100vh;
+    }
+
+    h1#numero {
+      font-size: clamp(4rem, 12vw, 10rem);
+      margin-bottom: 2rem;
+      color: #ffcb05;
+      text-shadow: 3px 3px #512b00;
+      word-break: break-word;
+    }
+
+    button {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      padding: 1rem 2rem;
+      cursor: pointer;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 5px 0 #cc5200;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    button:hover {
+      background-color: #e65c00;
+    }
+
+    button:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #b34700;
+    }
+
+    p#mensagem {
+      font-size: clamp(1rem, 2.5vw, 1.8rem);
+      margin-top: 2rem;
+      color: #fcd34d;
+      text-shadow: 2px 2px #000;
+    }
+
+    .container {
+      max-width: 90vw;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 5vw;
+      border-radius: 2rem;
+      border: 5px solid #ffcb05;
+      box-shadow: 0 0 20px #000;
+    }
+
+    #logo {
+      display: block;
+      margin: 3rem auto 0;
+      width: 300px;
+      max-width: 90vw;
+      height: auto;
+    }
+
+    @media (max-width: 600px) {
+      #logo {
+        width: 200px;
+      }
+      .container {
+        padding: 6vw 4vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="numero">Fale o número</h1>
+    <button onclick="ouvirNumero()">Ouvir Número</button>
+    <p id="mensagem"></p>
+  </div>
+
+  <img src="img/logo.png" alt="Logo Pecrus" id="logo" />
+
+  <script>
+    const mapaNumeros = {
+      'zero': 0, 'um': 1, 'dois': 2, 'três': 3, 'quatro': 4, 'cinco': 5,
+      'seis': 6, 'sete': 7, 'oito': 8, 'nove': 9, 'dez': 10,
+      'onze': 11, 'doze': 12, 'treze': 13, 'quatorze': 14,
+      'quinze': 15, 'dezesseis': 16, 'dezessete': 17, 'dezoito': 18,
+      'dezenove': 19, 'vinte': 20, 'trinta': 30, 'quarenta': 40,
+      'cinquenta': 50, 'sessenta': 60, 'setenta': 70,
+      'oitenta': 80, 'noventa': 90
+    };
+
+    function palavrasParaNumero(fala) {
+      const direto = fala.match(/\d+/);
+      if (direto) return parseInt(direto[0]);
+
+      const palavras = fala.toLowerCase().split(/\s+e?\s*/);
+      let total = 0;
+
+      palavras.forEach(p => {
+        if (mapaNumeros[p] !== undefined) {
+          total += mapaNumeros[p];
+        }
+      });
+
+      return total > 0 ? total : null;
+    }
+
+    function ouvirNumero() {
+      const numeroEl = document.getElementById('numero');
+      const mensagemEl = document.getElementById('mensagem');
+
+      numeroEl.textContent = 'Ouvindo ...';
+      mensagemEl.textContent = '';
+
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'pt-BR';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const fala = event.results[0][0].transcript.trim();
+        const numero = palavrasParaNumero(fala);
+
+        if (numero !== null) {
+          numeroEl.textContent = numero;
+          mensagemEl.textContent = `Você disse: "${fala}"`;
+        } else {
+          numeroEl.textContent = 'Número não reconhecido';
+          mensagemEl.textContent = `Você disse: "${fala}"`;
+        }
+      };
+
+      recognition.onerror = function(event) {
+        numeroEl.textContent = 'Erro ao reconhecer';
+        mensagemEl.textContent = `Erro: ${event.error}`;
+      };
+    }
+  </script>
+</body>
+</html>
