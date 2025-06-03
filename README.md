@@ -44,7 +44,7 @@ Você pode rodar a aplicação diretamente no navegador:
 3. Fale um número de 0 a 99
 4. Veja o número aparecer na tela!
 
-> 📌 **Observação:** O recurso de reconhecimento de voz depende do navegador. O **Google Chrome** é o mais compatível com a [Web Speech API](https://developer.mozilla.org/pt-BR/docs/Web/API/Web_Speech_API).
+> 📌 **Observação:** O recurso de reconhecimento de voz depende do navegador. O **Google Chrome** é o mais compatível com a [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API).
 
 
 
